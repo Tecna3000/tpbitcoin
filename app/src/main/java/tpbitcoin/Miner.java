@@ -47,10 +47,22 @@ public class Miner {
      * @param pubKey: the public key of the miner
      * @return
      */
-    // TODO
     public Block mine(Block lastBlock, List<Transaction> txs, byte[] pubKey){
 
-        return null;
+        txs.add(generateCoinbase(params, pubKey, "6,25"));
+        Block newBlock = new Block(params, lastBlock.getVersion(),lastBlock.getHash(),
+                                   lastBlock.getMerkleRoot(),lastBlock.getTimeSeconds(), Miner.EASY_DIFFICULTY_TARGET,0L, txs);
+        newBlock.solve();
+        while (true){
+        try {
+            newBlock.verifyHeader();
+            break;
+        }
+        catch (VerificationException e) {
+            newBlock.setNonce(newBlock.getNonce()+1);
+        }
+       }
+        return newBlock;
     }
 }
 
