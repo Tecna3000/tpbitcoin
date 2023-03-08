@@ -66,23 +66,21 @@ public class Explorer {
     }
 
 
-    // TODO
+
     public String getLatestHash(){
-        return "";
+        return "q/latesthash";
     }
 
 
-    // TODO 
     /**
      * Return the raw bytes of the block whose hash is given as argument
      * @param hash of a valid block contained in bitcoin mainnet
      * @return byte array encoding the block
      */
     public byte[] getRawblockFromHash(String hash){
-        return null;
+        return hexStringToByte(request("rawblock/"+hash+"?format=hex"));
     }
 
-    // TODO
     /**
      * Create an instance of bitcoinj.core.Block that correspond to the block
      * whose hash is given.
@@ -92,7 +90,7 @@ public class Explorer {
      */
 	
     public Block getBlockFromHash(NetworkParameters params, String hash){
-        return null;
+        return  fromRawblockToBlock(params, getRawblockFromHash(hash));
     }
 
 
